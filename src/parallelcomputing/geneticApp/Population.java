@@ -25,31 +25,32 @@ public class Population {
         for (int i = 0; i < maximumPopulation ; i++) {
             population.add(new DNA(this.target.length()));
         }
+        this.matingPool = new ArrayList<>();
+        this.calcFitness();
     }
 
     public void calcFitness() {
-        //TODO: Add method to calculate fitness of each element in population.
-    }
-
-    public void selection() {
-        //TODO: Add method to select fittest elements.
-    }
-
-    public String printPopulation() {
-        String population = "";
         for (int i = 0; i < this.population.size() ; i++) {
-            if (population.equals("")) {
-                population = this.population.get(i).toString();
-            } else {
-                population += "/n" + this.population.get(i).toString();
-            }
+            this.population.get(i).calcFitness(this.target);
         }
-        return population;
+    }
+
+    public void naturalSelection() {
+        //TODO: Generate mating pool
+    }
+
+    public DNA getDNA(int index) {
+        return this.population.get(index);
+    }
+
+    public int size() {
+        return this.population.size();
     }
 
 
 
-    //TODO: Add function to populate the population list radomly.
+
+
     //TODO: Add function to retrieve data from arraylist pupulation.
 
 

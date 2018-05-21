@@ -1,10 +1,8 @@
 package parallelcomputing;
 
-import parallelcomputing.geneticApp.DNA;
 import parallelcomputing.geneticApp.Population;
 import parallelcomputing.geneticApp.Processor;
 
-import java.util.ArrayList;
 
 /**
  * @Author: Tom Scholten & Jim van Wieringen
@@ -14,28 +12,28 @@ import java.util.ArrayList;
  * @version: 1.0
  */
 public class Main {
-    public static void main(String[] args){
-        String target = "To be or not to be.";
+    public static void main(String[] args) {
+        String target = "To be or not to be, that is the question.";
         double mutationRate = 0.01;
-        int maxPopulation = 1000;
+        int maxPopulation = 10000;
 
-
+        //Test population and DNA.
         Processor processor = new Processor();
-        processor.setUp(target,mutationRate,maxPopulation);
+        processor.setUp(target, mutationRate, maxPopulation);
         Population population = processor.getPopArray();
 
-//        System.out.println(population.printPopulation());
-
-        DNA dna = new DNA(20);
-        System.out.println(dna.printDNA());
-
-
+        for (int i = 0; i < population.size(); i++) {
+            if (population.getDNA(i).getFitness() > 0.0) {
+                System.out.println("Index: " + i + "   " + population.getDNA(i).printDNA() +
+                        "  Fitness: " + population.getDNA(i).getFitness());
+            }
+        }
 
 
         /**
          * To Do List:
          *
-         * TODO: setUp()
+         * DONE: setUp()
          * - Initialize: Create a population of N elements, each with randomly generated DNA
          *
          * TODO: Draw()

@@ -10,14 +10,14 @@ public class DNA {
 
     //Holds data for population. Each element in genes is an array of characters forming the random string.
     private ArrayList<Character> genes = new ArrayList<>();
-    private int fitness;
+    private double fitness;
     private int length;
 
     public DNA(int length) {
         this.length = length;
         this.fitness = 0;
 
-        for (int i = 0; i < length ; i++) {
+        for (int i = 0; i < length; i++) {
             genes.add(getRandomChar());
         }
 
@@ -30,33 +30,36 @@ public class DNA {
         return character;
     }
 
+    public void calcFitness(String target) {
+        double score = 0.0;
+        for (int i = 0; i < this.genes.size(); i++) {
+            char targetChar = target.charAt(i);
+            if (this.genes.get(i).equals(targetChar) ){
+                score++;
+            }
+        }
+        this.fitness = score / target.length();
+    }
+
     public void mutate() {
 
     }
 
-    public int getFitness() {
-        return fitness;
-    }
-
-    public void setFitness(int fitness) {
-        this.fitness = fitness;
+    public double getFitness() {
+        return this.fitness;
     }
 
     public String printDNA() {
         String genes = "";
-        for (int i = 0; i < this.genes.size() ; i++) {
+        for (Character gene : this.genes) {
             if (genes.equals("")) {
-                genes = String.valueOf(this.genes.get(i));
+                genes = String.valueOf(gene);
             } else {
-                genes += String.valueOf(this.genes.get(i));
+                genes += String.valueOf(gene);
             }
         }
         return genes;
     }
-
-    //TODO: Add functions to store and retrieve genes.
-
-
 
 
 }

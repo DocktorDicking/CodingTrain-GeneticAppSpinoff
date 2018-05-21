@@ -10,6 +10,10 @@ public class Processor {
         this.population = new Population(target,mutationRate,maximumPopulation);
     }
 
+    public void draw() {
+        //Run all geneticApp code.
+    }
+
     /**
      * For testing purposes.
      * @return
