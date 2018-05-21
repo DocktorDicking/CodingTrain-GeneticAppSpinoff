@@ -4,11 +4,20 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * @Author: Jim van Wieringen
+ * @Project Name: ParallelComputing
+ * @Date: May 21, 2018
+ * @version: 1.0
+ */
+
+
+/**
  * Holds all dna data.
  */
 public class DNA {
 
     //Holds data for population. Each element in genes is an array of characters forming the random string.
+    private Random random = new Random();
     private ArrayList<Character> genes = new ArrayList<>();
     private double fitness;
     private int length;
@@ -24,9 +33,8 @@ public class DNA {
     }
 
     private char getRandomChar() {
-        Random random = new Random();
         String alphabet = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789[];'./, -=!@#$%^&*()";
-        char character = alphabet.charAt(random.nextInt(alphabet.length()));
+        char character = alphabet.charAt(this.random.nextInt(alphabet.length()));
         return character;
     }
 
@@ -34,15 +42,40 @@ public class DNA {
         double score = 0.0;
         for (int i = 0; i < this.genes.size(); i++) {
             char targetChar = target.charAt(i);
-            if (this.genes.get(i).equals(targetChar) ){
+            if (this.genes.get(i).equals(targetChar)) {
                 score++;
             }
         }
         this.fitness = score / target.length();
     }
 
-    public void mutate() {
+    /**
+     * Generates a new child using a partner/parent.
+     * @param partner
+     * @return
+     */
+    public DNA crossover(DNA partner) {
+        DNA child = new DNA(this.genes.size());
+        int midPoint = (int) Math.floor(this.random.nextDouble() * this.genes.size());
 
+        for (int i = 0; i < this.genes.size(); i++) {
+            if (i > midPoint) {
+                child.genes.add(i, this.genes.get(i));
+            } else {
+                child.genes.add(i, partner.genes.get(i));
+            }
+        }
+        return child;
+    }
+
+    // Based on a probability a character gets replaced with a new random character.
+    public void mutate(double mutationRate) {
+        for (int i = 0; i < this.genes.size(); i++) {
+            if (this.random.nextDouble() < mutationRate) {
+                this.genes.remove(i);
+                this.genes.add(i, this.getRandomChar());
+            }
+        }
     }
 
     public double getFitness() {
@@ -60,6 +93,5 @@ public class DNA {
         }
         return genes;
     }
-
 
 }

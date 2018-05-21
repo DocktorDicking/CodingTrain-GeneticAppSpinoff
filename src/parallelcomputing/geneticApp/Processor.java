@@ -1,6 +1,14 @@
 package parallelcomputing.geneticApp;
 
 /**
+ * @Author: Jim van Wieringen
+ * @Project Name: ParallelComputing
+ * @Date: May 21, 2018
+ * @version: 1.0
+ */
+
+
+/**
  * Main geneticApp file. Calls, setUp, draw etc...
  */
 public class Processor {
