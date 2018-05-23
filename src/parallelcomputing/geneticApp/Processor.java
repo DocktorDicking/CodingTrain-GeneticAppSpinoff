@@ -46,7 +46,7 @@ public class Processor {
         String stats =
                 "Total generations: " + population.getGenerations() + "\n" +
                         "Average fitness: " + (int)population.getAverageFitness() + "%\n" +
-                        "Total population: " + population.getMaximumPopulation() + "\n" +
+                        "Population limit: " + population.getMaximumPopulation() + "\n" +
                         "Mutation rate: " + (int)population.getMutationRate() + "%";
         System.out.print("\r" + answer + "\n" + stats + "\n\n");
     }
