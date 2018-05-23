@@ -8,17 +8,21 @@ package parallelcomputing.geneticApp;
  */
 
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Main geneticApp file. Calls, setUp, draw etc...
  */
 public class Processor {
     private Population population;
+    long elapsedTime;
 
     public void setUp(String target, double mutationRate, int maximumPopulation) {
         this.population = new Population(target,mutationRate,maximumPopulation);
     }
 
     public void draw() {
+        long startTime = System.nanoTime();
         while (!population.isFinished()) {
             //Generate mating pool
             population.naturalSelection();
@@ -30,6 +34,11 @@ public class Processor {
             population.evaluate();
             this.displayInfo();
         }
+        long endTime = System.nanoTime();
+        elapsedTime = endTime - startTime;
+        System.out.println("Generated " + population.getGenerations() * population.getMaximumPopulation() + " Phrases");
+        System.out.println("Elapsed time in milliseconds: " + TimeUnit.NANOSECONDS.toMillis(elapsedTime));
+        System.out.println("Elapsed time in seconds: " + TimeUnit.NANOSECONDS.toSeconds(elapsedTime));
     }
 
     public void displayInfo() {

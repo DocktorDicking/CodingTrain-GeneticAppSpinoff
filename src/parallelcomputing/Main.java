@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class Main {
     public static void main(String[] args) {
-        String target = "To be or not to be.";
+        String target = "To be or not to be, that is the question.";
         double mutationRate = 0.01;
         int maxPopulation = 1000;
 
