@@ -19,7 +19,27 @@ public class Processor {
     }
 
     public void draw() {
-        //Run all geneticApp code.
+        while (!population.isFinished()) {
+            //Generate mating pool
+            population.naturalSelection();
+            //Create next generation
+            population.generate();
+            //Calculate fitness
+            population.calcFitness();
+
+            population.evaluate();
+            this.displayInfo();
+        }
+    }
+
+    public void displayInfo() {
+        String answer = "Best phrase: " + population.getBest();
+        String stats =
+                "Total generations: " + population.getGenerations() + "\n" +
+                        "Average fitness: " + (int)population.getAverageFitness() + "%\n" +
+                        "Total population: " + population.getMaximumPopulation() + "\n" +
+                        "Mutation rate: " + (int)population.getMutationRate() + "%";
+        System.out.print("\r" + answer + "\n" + stats + "\n\n");
     }
 
     /**

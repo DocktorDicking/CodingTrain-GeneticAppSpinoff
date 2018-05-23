@@ -24,7 +24,7 @@ public class Population {
     private double mutationRate;
     private String best;
     private int maximumPopulation;
-    private int perfectScore = 1;
+    private double perfectScore = 1.0;
 
     public Population(String target, double mutationRate, int maximumPopulation) {
         this.target = target;
@@ -41,9 +41,18 @@ public class Population {
     }
 
     public void calcFitness() {
-        for (int i = 0; i < this.population.size() ; i++) {
+        for (int i = 0; i < this.population.size() - 1; i++) {
             this.population.get(i).calcFitness(this.target);
         }
+    }
+
+    public double getAverageFitness() {
+        double total = 0.0;
+        for (int i = 0; i < this.population.size() ; i++) {
+            total += this.population.get(i).getFitness();
+        }
+        total = total * 100 / this.population.size();
+        return Math.floor(total);
     }
 
     public void naturalSelection() {
@@ -59,11 +68,17 @@ public class Population {
         // a higher fitness = more entries to the mating pool = more likely to be picked as a parent
         // a lower fitness = fewer entries to the mating pool = less likely to be picked as a parent
         for (int i = 0; i < this.population.size() ; i++) {
-            double fitness = this.p5jsMap(this.population.get(i).getFitness(), 0, topFitness, 0, 1, false);
+            double fitness;
+            if (this.population.get(i).getFitness() > 0.001) {
+                fitness = this.p5jsMap(this.population.get(i).getFitness(), 0, topFitness, 0, 1, false);
+            } else {
+                fitness = 0.01;
+            }
             double n = Math.floor(fitness * 100);
             for (int j = 0; j < n ; j++) {
                 this.matingPool.add(this.population.get(i));
             }
+
         }
     }
 
@@ -72,8 +87,8 @@ public class Population {
 
         //Refill the population with children from the mating pool.
         for (int i = 0; i < this.population.size(); i++) {
-            int a = (int) Math.floor(random.nextDouble() * this.matingPool.size());
-            int b = (int) Math.floor(random.nextDouble() * this.matingPool.size());
+            int a = random.nextInt(this.matingPool.size());
+            int b = random.nextInt(this.matingPool.size());
             DNA partnerA = this.matingPool.get(a);
             DNA partnerB = this.matingPool.get(b);
             DNA child = partnerA.crossover(partnerB);
@@ -90,6 +105,7 @@ public class Population {
      * @return
      */
     public double p5jsMap(double n, double start1, double stop1, double start2, double stop2, boolean withinBounds) {
+        //TODO Review formula. After some calculations it feels kind of useless.
         double newDouble = (n - start1) / (stop1 - start1) * (stop2 - start2) + start2;
         if (!withinBounds) {
             return newDouble;
@@ -127,6 +143,18 @@ public class Population {
 
     public int getGenerations() {
         return generations;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public int getMaximumPopulation() {
+        return maximumPopulation;
+    }
+
+    public double getMutationRate() {
+        return mutationRate * 100;
     }
 
     //METHODS USED FOR TESTING

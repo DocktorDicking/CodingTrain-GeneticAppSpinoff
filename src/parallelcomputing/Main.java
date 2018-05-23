@@ -15,9 +15,11 @@ import java.util.Random;
  */
 public class Main {
     public static void main(String[] args) {
-        String target = "To be or not to be, that is the question.";
+        String target = "To be or not to be.";
         double mutationRate = 0.01;
         int maxPopulation = 1000;
+
+        runApp(target, mutationRate, maxPopulation);
 
         //Test population and DNA.
 //        test1(target, mutationRate, maxPopulation);
@@ -26,14 +28,12 @@ public class Main {
 //        test2(target, mutationRate, maxPopulation);
 
 
-        /**
-         * To Do List:
-         *
-         * TODO Run application...
-         *
-         */
+    }
 
-
+    public static void runApp(String target, double mutationRate, int maxPopulation) {
+        Processor processor = new Processor();
+        processor.setUp(target, mutationRate, maxPopulation);
+        processor.draw();
     }
 
     public static void test1(String target, double mutationRate, int maxPopulation) {

@@ -41,9 +41,9 @@ public class DNA {
     public void calcFitness(String target) {
         double score = 0.0;
         for (int i = 0; i < this.genes.size(); i++) {
-            char targetChar = target.charAt(i);
-            if (this.genes.get(i).equals(targetChar)) {
-                score++;
+                char targetChar = target.charAt(i);
+                if (this.genes.get(i).equals(targetChar)) {
+                    score++;
             }
         }
         this.fitness = score / target.length();
@@ -51,17 +51,20 @@ public class DNA {
 
     /**
      * Generates a new child using a partner/parent.
+     *
      * @param partner
      * @return
      */
     public DNA crossover(DNA partner) {
-        DNA child = new DNA(this.genes.size());
-        int midPoint = (int) Math.floor(this.random.nextDouble() * this.genes.size());
+        DNA child = new DNA(this.length);
+        int midPoint = this.random.nextInt(this.genes.size());
 
         for (int i = 0; i < this.genes.size(); i++) {
             if (i > midPoint) {
+                child.genes.remove(i);
                 child.genes.add(i, this.genes.get(i));
             } else {
+                child.genes.remove(i);
                 child.genes.add(i, partner.genes.get(i));
             }
         }
@@ -71,7 +74,8 @@ public class DNA {
     // Based on a probability a character gets replaced with a new random character.
     public void mutate(double mutationRate) {
         for (int i = 0; i < this.genes.size(); i++) {
-            if (this.random.nextDouble() < mutationRate) {
+            double randomD = this.random.nextDouble();
+            if (randomD < mutationRate) {
                 this.genes.remove(i);
                 this.genes.add(i, this.getRandomChar());
             }
@@ -93,5 +97,13 @@ public class DNA {
         }
         return genes;
     }
+
+    //TESTING method
+//    public void setGene(int index, char value) {
+//        this.genes.remove(index);
+//        this.genes.add(index, value);
+//        this.calcFitness("1");
+//    }
+
 
 }
