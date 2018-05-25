@@ -38,6 +38,7 @@ public class Population {
             population.add(new DNA(this.target.length()));
         }
         this.calcFitness();
+        this.evaluate();
     }
 
     public void calcFitness() {
@@ -142,6 +143,7 @@ public class Population {
      * Returns Populations combined into one population. Method made to merge multiple thread outputs.
      * Three implementations of crossoverPopulations. 2, 3, 4.
      * TODO This is still a concept. Still drawing ideas.
+     *
      * @param A
      * @param B
      * @return
