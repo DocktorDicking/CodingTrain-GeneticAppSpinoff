@@ -18,7 +18,7 @@ public class Processor {
     long elapsedTime;
 
     public void setUp(String target, double mutationRate, int maximumPopulation) {
-        this.population = new Population(target,mutationRate,maximumPopulation);
+        this.population = new Population(target, mutationRate, maximumPopulation);
     }
 
     public void draw() {
@@ -45,14 +45,15 @@ public class Processor {
         String answer = "Best phrase: " + population.getBest();
         String stats =
                 "Total generations: " + population.getGenerations() + "\n" +
-                        "Average fitness: " + (int)population.getAverageFitness() + "%\n" +
+                        "Average fitness: " + (int) population.getAverageFitness() + "%\n" +
                         "Population limit: " + population.getMaximumPopulation() + "\n" +
-                        "Mutation rate: " + (int)population.getMutationRate() + "%";
+                        "Mutation rate: " + (int) population.getMutationRate() + "%";
         System.out.print("\r" + answer + "\n" + stats + "\n\n");
     }
 
     /**
      * For testing purposes.
+     *
      * @return
      */
     public Population getPopArray() {

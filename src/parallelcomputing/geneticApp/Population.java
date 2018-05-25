@@ -34,7 +34,7 @@ public class Population {
         this.generations = 0;
         this.best = "";
 
-        for (int i = 0; i < maximumPopulation ; i++) {
+        for (int i = 0; i < maximumPopulation; i++) {
             population.add(new DNA(this.target.length()));
         }
         this.calcFitness();
@@ -48,7 +48,7 @@ public class Population {
 
     public double getAverageFitness() {
         double total = 0.0;
-        for (int i = 0; i < this.population.size() ; i++) {
+        for (int i = 0; i < this.population.size(); i++) {
             total += this.population.get(i).getFitness();
         }
         total = total * 100 / this.population.size();
@@ -67,7 +67,7 @@ public class Population {
         // Based on fitness, each member will get added to the mating pool a certain number of times
         // a higher fitness = more entries to the mating pool = more likely to be picked as a parent
         // a lower fitness = fewer entries to the mating pool = less likely to be picked as a parent
-        for (int i = 0; i < this.population.size() ; i++) {
+        for (int i = 0; i < this.population.size(); i++) {
             double fitness;
             if (this.population.get(i).getFitness() > 0.001) {
                 fitness = this.p5jsMap(this.population.get(i).getFitness(), 0, topFitness, 0, 1, false);
@@ -75,7 +75,7 @@ public class Population {
                 fitness = 0.01;
             }
             double n = Math.floor(fitness * 100);
-            for (int j = 0; j < n ; j++) {
+            for (int j = 0; j < n; j++) {
                 this.matingPool.add(this.population.get(i));
             }
 
@@ -102,6 +102,7 @@ public class Population {
     /**
      * Function used in p5.js. Could nog find a equal java function.
      * This function is based upon the j5.js sourcecode.
+     *
      * @return
      */
     public double p5jsMap(double n, double start1, double stop1, double start2, double stop2, boolean withinBounds) {
@@ -110,7 +111,7 @@ public class Population {
         if (!withinBounds) {
             return newDouble;
         }
-        if (start2 < stop2 ) {
+        if (start2 < stop2) {
             return this.constrain(newDouble, start2, stop2);
         } else {
             return this.constrain(newDouble, stop2, start2);
@@ -124,7 +125,7 @@ public class Population {
     public void evaluate() {
         double record = 0.0;
         int index = 0;
-        for (int i = 0; i < this.population.size() ; i++) {
+        for (int i = 0; i < this.population.size(); i++) {
             if (this.population.get(i).getFitness() > record) {
                 index = i;
                 record = this.population.get(i).getFitness();

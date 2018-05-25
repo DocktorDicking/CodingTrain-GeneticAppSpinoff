@@ -41,9 +41,9 @@ public class DNA {
     public void calcFitness(String target) {
         double score = 0.0;
         for (int i = 0; i < this.genes.size(); i++) {
-                char targetChar = target.charAt(i);
-                if (this.genes.get(i).equals(targetChar)) {
-                    score++;
+            char targetChar = target.charAt(i);
+            if (this.genes.get(i).equals(targetChar)) {
+                score++;
             }
         }
         this.fitness = score / target.length();
