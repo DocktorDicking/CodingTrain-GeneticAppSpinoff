@@ -50,13 +50,4 @@ public class Processor {
                         "Mutation rate: " + (int) population.getMutationRate() + "%";
         System.out.print("\r" + answer + "\n" + stats + "\n\n");
     }
-
-    /**
-     * For testing purposes.
-     *
-     * @return
-     */
-    public Population getPopArray() {
-        return population;
-    }
 }

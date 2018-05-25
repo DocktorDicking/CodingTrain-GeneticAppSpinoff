@@ -97,13 +97,4 @@ public class DNA {
         }
         return genes;
     }
-
-    //TESTING method
-//    public void setGene(int index, char value) {
-//        this.genes.remove(index);
-//        this.genes.add(index, value);
-//        this.calcFitness("1");
-//    }
-
-
 }

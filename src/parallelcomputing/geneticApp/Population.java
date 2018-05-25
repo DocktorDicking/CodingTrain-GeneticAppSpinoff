@@ -72,7 +72,7 @@ public class Population {
             if (this.population.get(i).getFitness() > 0.001) {
                 fitness = this.p5jsMap(this.population.get(i).getFitness(), 0, topFitness, 0, 1, false);
             } else {
-                fitness = 0.01;
+                fitness = 0.01; //Minimal fitness to be added once to mating pool.
             }
             double n = Math.floor(fitness * 100);
             for (int j = 0; j < n; j++) {
@@ -136,6 +136,18 @@ public class Population {
         if (record == this.perfectScore) {
             this.finished = true;
         }
+    }
+
+    /**
+     * Returns Populations combined into one population. Method made to merge multiple thread outputs.
+     * Three implementations of crossoverPopulations. 2, 3, 4.
+     * TODO This is still a concept. Still drawing ideas.
+     * @param A
+     * @param B
+     * @return
+     */
+    public Population crossoverPopulations(Population A, Population B) {
+        return null;
     }
 
     public String getBest() {
