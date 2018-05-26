@@ -26,7 +26,16 @@ public class Population {
     private int maximumPopulation;
     private double perfectScore = 1.0;
 
-    public Population(String target, double mutationRate, int maximumPopulation) {
+    /**
+     * Default population constructor. Population holds an array with DNA entities.
+     * Population is used to manage DNA entities.
+     *
+     * @param target            Target string.
+     * @param mutationRate      Rate of mutation. 0.01 = 1%
+     * @param maximumPopulation The maximum number of DNA entities a population can hold.
+     * @param initPopulation    Create a populated population (for initialization)
+     */
+    public Population(String target, double mutationRate, int maximumPopulation, boolean initPopulation) {
         this.target = target;
         this.mutationRate = mutationRate;
         this.maximumPopulation = maximumPopulation;
@@ -34,11 +43,12 @@ public class Population {
         this.generations = 0;
         this.best = "";
 
-        for (int i = 0; i < maximumPopulation; i++) {
-            population.add(new DNA(this.target.length()));
+        if (initPopulation) {
+            for (int i = 0; i < maximumPopulation; i++) {
+                population.add(new DNA(this.target.length()));
+            }
+            this.calcFitness();
         }
-        this.calcFitness();
-        this.evaluate();
     }
 
     public void calcFitness() {
@@ -141,15 +151,21 @@ public class Population {
 
     /**
      * Returns Populations combined into one population. Method made to merge multiple thread outputs.
-     * Three implementations of crossoverPopulations. 2, 3, 4.
+     * Three implementations of mergePopulation. 2, 3, 4.
      * TODO This is still a concept. Still drawing ideas.
      *
-     * @param A
-     * @param B
      * @return
      */
-    public Population crossoverPopulations(Population A, Population B) {
-        return null;
+    public void mergePopulation(Population a, Population b, Population c) {
+        for (int i = 0; i < maximumPopulation; i++) {
+            this.population.add(a.getDNA(i));
+            if (b != null) {
+                this.population.add(b.getDNA(i));
+            }
+            if (c != null) {
+                this.population.add(c.getDNA(i));
+            }
+        }
     }
 
     public String getBest() {
@@ -172,11 +188,11 @@ public class Population {
         return mutationRate * 100;
     }
 
-    //METHODS USED FOR TESTING
     public DNA getDNA(int index) {
         return this.population.get(index);
     }
 
+    //METHODS USED FOR TESTING
     public int size() {
         return this.population.size();
     }

@@ -1,9 +1,10 @@
 package parallelcomputing;
 
-import parallelcomputing.geneticApp.Population;
-import parallelcomputing.geneticApp.Processor;
+import parallelcomputing.geneticApp.SingleProcessor;
+import parallelcomputing.parallelComputed.Processor;
 
-import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -18,13 +19,26 @@ public class Main {
         String target = "To be or not to be.";
         double mutationRate = 0.01;
         int maxPopulation = 1000;
+        int threads = 4; //Replace with: Runtime.getRuntime().availableProcessors()
 
-        runApp(target, mutationRate, maxPopulation);
+//        runSingleApp(target, mutationRate, maxPopulation);
+//        testMerge(target,mutationRate,maxPopulation);
+
+        Processor processor = new Processor();
+        processor.setUp();
+
+
     }
 
-    public static void runApp(String target, double mutationRate, int maxPopulation) {
-        Processor processor = new Processor();
+    public static void runSingleApp(String target, double mutationRate, int maxPopulation) {
+        SingleProcessor processor = new SingleProcessor();
         processor.setUp(target, mutationRate, maxPopulation);
         processor.draw();
+    }
+
+    public static void testMerge(String target, double mutationRate, int maxPupulation) {
+        SingleProcessor processor = new SingleProcessor();
+        processor.setUp(target,mutationRate,maxPupulation);
+        processor.testPopulationMerge(target, mutationRate, maxPupulation);
     }
 }
