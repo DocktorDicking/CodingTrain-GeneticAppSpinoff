@@ -15,6 +15,8 @@ public class SychronizedProcessor {
     private String target; //Target String
     private boolean finished; //Did we find the phrase?
     private String best; //Best phrase found in a generation.
+    private double perfectScore = 1.0;
+
 
 
 
