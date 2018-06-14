@@ -11,4 +11,9 @@ public class ParallelProcessor implements Runnable {
     public void run() {
 
     }
+
+    public void caclFitness() {}
+    public void generate() {}
+
+
 }
