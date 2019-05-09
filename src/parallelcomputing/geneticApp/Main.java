@@ -2,10 +2,10 @@ package parallelcomputing.geneticApp;
 
 
 /**
- * @Author: Tom Scholten & Jim van Wieringen
- * @Project Name: ParallelComputing
+ * @Author: Jim van Wieringen
+ * @Project Name: geneticApp
  * @Function: Main
- * @Date: May 17, 2018 2:55:39 PM
+ * @Date: May 1, 2019 2:55:39 PM
  * @version: 1.0
  */
 public class Main {
@@ -13,7 +13,8 @@ public class Main {
         String target = "To be or not to be.";
         double mutationRate = 0.01;
         int maxPopulation = 1000;
-        int threads = 4; //Replace with: Runtime.getRuntime().availableProcessors()
+        int threads = Runtime.getRuntime().availableProcessors();
+
 
         SingleProcessor processor = new SingleProcessor();
         processor.setUp(target, mutationRate, maxPopulation);

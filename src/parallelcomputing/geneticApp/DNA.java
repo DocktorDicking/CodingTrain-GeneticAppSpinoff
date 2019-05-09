@@ -5,8 +5,8 @@ import java.util.Random;
 
 /**
  * @Author: Jim van Wieringen
- * @Project Name: ParallelComputing
- * @Date: May 21, 2018
+ * @Project Name: geneticApp
+ * @Date: May 1, 2019
  * @version: 1.0
  */
 
@@ -38,6 +38,7 @@ public class DNA {
         return character;
     }
 
+    @SuppressWarnings("Duplicates")
     public void calcFitness(String target) {
         double score = 0.0;
         for (int i = 0; i < this.genes.size(); i++) {
@@ -55,6 +56,7 @@ public class DNA {
      * @param partner
      * @return
      */
+    @SuppressWarnings("Duplicates")
     public DNA crossover(DNA partner) {
         DNA child = new DNA(this.length);
         int midPoint = this.random.nextInt(this.genes.size());
@@ -72,6 +74,7 @@ public class DNA {
     }
 
     // Based on a probability a character gets replaced with a new random character.
+    @SuppressWarnings("Duplicates")
     public void mutate(double mutationRate) {
         for (int i = 0; i < this.genes.size(); i++) {
             double randomD = this.random.nextDouble();
