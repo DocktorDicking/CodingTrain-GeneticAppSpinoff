@@ -83,7 +83,7 @@ public class Population {
             if (this.population.get(i).getFitness() > 0.001) {
                 fitness = this.p5jsMap(this.population.get(i).getFitness(), 0, topFitness, 0, 1, false);
             } else {
-                fitness = 0.001; //Minimal fitness to be added once to mating pool.
+                fitness = 0.01; //Minimal fitness to be added once to mating pool. Maybe remove?
             }
             double n = Math.floor(fitness * 100);
             for (int j = 0; j < n; j++) {
