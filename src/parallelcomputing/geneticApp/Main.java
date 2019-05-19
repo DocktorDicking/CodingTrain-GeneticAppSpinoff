@@ -10,11 +10,9 @@ package parallelcomputing.geneticApp;
  */
 public class Main {
     public static void main(String[] args) {
-        String target = "To be or not to be.";
+        String target = "To be or not to be. That is the question.";
         double mutationRate = 0.01;
-        int maxPopulation = 1000;
-        int threads = Runtime.getRuntime().availableProcessors();
-
+        int maxPopulation = 2500;
 
         SingleProcessor processor = new SingleProcessor();
         processor.setUp(target, mutationRate, maxPopulation);

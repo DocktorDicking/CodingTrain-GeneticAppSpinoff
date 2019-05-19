@@ -10,5 +10,7 @@ package parallelApp;
 public class Main {
     public static void main(String[] args) {
 
+
+        int threads = Runtime.getRuntime().availableProcessors();
     }
 }

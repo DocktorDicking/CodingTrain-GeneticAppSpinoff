@@ -24,6 +24,7 @@ public class SingleProcessor {
 
     public void draw() {
         long startTime = System.nanoTime();
+        int oldGen = population.getGenerations();
         while (!population.isFinished()) {
             //Generate mating pool
             population.naturalSelection();
@@ -33,11 +34,18 @@ public class SingleProcessor {
             population.calcFitness();
 
             population.evaluate();
-            this.displayInfo();
+
+            //only print every x gens.
+            if ((population.getGenerations() - 100) == oldGen) {
+                this.displayInfo();
+                oldGen = population.getGenerations();
+            }
         }
         long endTime = System.nanoTime();
         elapsedTime = endTime - startTime;
-        System.out.println("Generated " + population.getGenerations() * population.getMaximumPopulation() + " Phrases");
+        System.out.println("Generated: " + population.getGenerations() + " Generations");
+        System.out.println("Generated: " + population.getGenerations() * population.getMaximumPopulation() + " Phrases");
+        System.out.println("Best phrase:" + population.getBest());
         System.out.println("Elapsed time in milliseconds: " + TimeUnit.NANOSECONDS.toMillis(elapsedTime));
         System.out.println("Elapsed time in seconds: " + TimeUnit.NANOSECONDS.toSeconds(elapsedTime));
     }
