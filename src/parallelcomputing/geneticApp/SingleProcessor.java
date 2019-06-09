@@ -45,7 +45,7 @@ public class SingleProcessor {
         elapsedTime = endTime - startTime;
         System.out.println("Generated: " + population.getGenerations() + " Generations");
         System.out.println("Generated: " + population.getGenerations() * population.getMaximumPopulation() + " Phrases");
-        System.out.println("Best phrase:" + population.getBest());
+        System.out.println("Best phrase: " + population.getBest());
         System.out.println("Elapsed time in milliseconds: " + TimeUnit.NANOSECONDS.toMillis(elapsedTime));
         System.out.println("Elapsed time in seconds: " + TimeUnit.NANOSECONDS.toSeconds(elapsedTime));
     }
