@@ -12,7 +12,7 @@ public class Main {
     public static void main(String[] args) {
         String target = "To be or not to be. That is the question.";
         double mutationRate = 0.01;
-        int maxPopulation = 2500;
+        int maxPopulation = 10000;
 
         SingleProcessor processor = new SingleProcessor();
         processor.setUp(target, mutationRate, maxPopulation);
