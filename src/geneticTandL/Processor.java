@@ -7,9 +7,6 @@ package geneticTandL;
  * @version: 1.0
  */
 
-
-import parallelcomputing.geneticApp.Population;
-
 import java.util.concurrent.TimeUnit;
 
 /**
