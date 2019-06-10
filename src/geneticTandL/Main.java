@@ -1,6 +1,10 @@
 package geneticTandL;
 
 
+import geneticTandL.config.config;
+
+import java.util.ArrayList;
+
 /**
  * @Author: Jim van Wieringen
  * @Project Name: geneticApp
@@ -10,14 +14,24 @@ package geneticTandL;
  */
 public class Main {
     public static void main(String[] args) {
-        String target = "To be or not to be. That is the question.";
-        double mutationRate = 0.01;
-        int maxPopulation = 10000;
-
         Processor processor = new Processor();
-        processor.setUp(target, mutationRate, maxPopulation);
-        processor.draw();
+        processor.setUp();
+//        processor.draw();
 
-        //int threads = Runtime.getRuntime().availableProcessors();
+        ArrayList<Population> list = processor.getPopulations();
+        Population population = processor.getPopulation();
+        ArrayList<Population> splitList = population.splitPopulation(population);
+
+        System.out.println("MERGED POPULATION: ");
+        System.out.println(population.size());
+
+
+        System.out.println("SPLIT POPULATION: ");
+        System.out.println(splitList.size());
+
+        for (int i = 0; i < splitList.size(); i++) {
+            System.out.println(splitList.get(i).size());
+        }
+
     }
 }

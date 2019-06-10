@@ -1,10 +1,6 @@
-package geneticTandL;
-
-import geneticTandL.config.config;
+package genecticOptimal;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -20,7 +16,7 @@ import java.util.Random;
  */
 public class Population {
 
-    public ArrayList<DNA> population; //Array to hold the current population
+    private ArrayList<DNA> population; //Array to hold the current population
     private ArrayList<DNA> matingPool; //Array holds best specimen.
     private int generations; //Number of generations.
     private boolean finished; //Did we find the phrase?
@@ -34,19 +30,22 @@ public class Population {
      * Default population constructor. Population holds an array with DNA entities.
      * Population is used to manage DNA entities.
      *
+     * @param target            Target string.
+     * @param mutationRate      Rate of mutation. 0.01 = 1%
+     * @param maximumPopulation The maximum number of DNA entities a population can hold.
      * @param initPopulation    Create a populated population (for initialization)
      */
-    public Population(boolean initPopulation) {
-        this.target = config.target;
-        this.mutationRate = config.mutationRate;
-        this.maximumPopulation = config.maxPopulation;
+    public Population(String target, double mutationRate, int maximumPopulation, boolean initPopulation) {
+        this.target = target;
+        this.mutationRate = mutationRate;
+        this.maximumPopulation = maximumPopulation;
         this.population = new ArrayList<>();
         this.generations = 0;
         this.best = "";
 
         if (initPopulation) {
-            for (int i = 0; i < this.maximumPopulation; i++) {
-                this.population.add(new DNA(this.target.length()));
+            for (int i = 0; i < maximumPopulation; i++) {
+                population.add(new DNA(this.target.length()));
             }
             this.calcFitness();
         }
@@ -134,11 +133,9 @@ public class Population {
         return Math.max(Math.min(n, high), low);
     }
 
-    //TODO: Left off here. Last time we created split population method. So we can parallelize this method.
     public void evaluate() {
         double record = 0.0;
         int index = 0;
-        //Split populations here
         for (int i = 0; i < this.population.size(); i++) {
             if (this.population.get(i).getFitness() > record) {
                 index = i;
@@ -159,44 +156,16 @@ public class Population {
      *
      * @return
      */
-    public void mergePopulation(ArrayList<Population> populations) {
-        for (int i = 0; i < populations.size(); i++) {
-            Population cursor = populations.get(i);
-            for (int j = 0; j < cursor.size(); j++) {
-                this.population.add(cursor.getDNA(i));
+    public void mergePopulation(Population a, Population b, Population c) {
+        for (int i = 0; i < maximumPopulation; i++) {
+            this.population.add(a.getDNA(i));
+            if (b != null) {
+                this.population.add(b.getDNA(i));
+            }
+            if (c != null) {
+                this.population.add(c.getDNA(i));
             }
         }
-        Collections.shuffle(this.population);
-    }
-
-    /**
-     * Splits population object into smaller population objects and adds them to an ArrayList.
-     * Before checking it checks if population is dividable by 2. (even)
-     *
-     * Theoretically is the population size always dividable by 2 since the size depends on the CPU cores and CPU
-     * cores normally have a even number of cores.
-     * @param population
-     * @return ArrayList
-     */
-    public ArrayList<Population> splitPopulation(Population population) {
-        ArrayList<Population> populations = new ArrayList<>();
-        int newArraySize = (population.size() / config.maxThreads);
-        int pointer = 0;
-        if (population.size() % 2 == 0) {
-            for (int i = 0; i < config.maxThreads; i++) {
-                if (!(pointer > population.size())) {
-                    Population subPopulation = new Population(false);
-                    for (int j = 0; j < newArraySize; j++) {
-                        subPopulation.population.add(population.getDNA(j + pointer));
-                    }
-                    populations.add(subPopulation);
-                    pointer += newArraySize;
-                } else {
-                    break;
-                }
-            }
-        }
-        return populations;
     }
 
     public String getBest() {
@@ -212,7 +181,7 @@ public class Population {
     }
 
     public int getMaximumPopulation() {
-        return this.maximumPopulation;
+        return maximumPopulation;
     }
 
     public double getMutationRate() {

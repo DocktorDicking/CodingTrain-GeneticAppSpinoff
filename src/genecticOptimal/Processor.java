@@ -1,4 +1,4 @@
-package geneticTandL;
+package genecticOptimal;
 
 /**
  * @Author: Jim van Wieringen
@@ -7,37 +7,18 @@ package geneticTandL;
  * @version: 1.0
  */
 
-import geneticTandL.config.config;
-import geneticTandL.populationRunners.initRunner;
-
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Main geneticApp file. Calls, setUp, draw etc...
  */
 public class Processor {
-    private ArrayList<Population> populations = new ArrayList<>();
-    private Population population = new Population(false);
+    private Population population;
     long elapsedTime;
 
-    public void setUp() {
-        for (int i = 0; i < config.maxThreads; i++) {
-            initRunner runnable = new initRunner();
-            Thread thread = new Thread(runnable);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            this.populations.add(runnable.getPopulation());
-            this.population.mergePopulation(populations);
-            this.population.evaluate();
-        }
-
-//        this.population = new Population(target, mutationRate, maximumPopulation, true);
-//        this.population.evaluate();
+    public void setUp(String target, double mutationRate, int maximumPopulation) {
+        this.population = new Population(target, mutationRate, maximumPopulation, true);
+        this.population.evaluate();
     }
 
     public void draw() {
@@ -78,12 +59,18 @@ public class Processor {
         System.out.print("\r" + answer + "\n" + stats + "\n\n");
     }
 
-    //For testing.
-    public ArrayList<Population> getPopulations() {
-        return populations;
-    }
-
-    public Population getPopulation() {
-        return population;
+    /**
+     * Simple method to test merging method in population entity.
+     * @param target
+     * @param mutationRate
+     * @param maximumPopulation
+     */
+    public void testPopulationMerge(String target, double mutationRate, int maximumPopulation) {
+        System.out.println(this.population.size());
+        Population population2 = new Population(target,mutationRate,maximumPopulation, true);
+        Population population3 = new Population(target,mutationRate,maximumPopulation, true);
+        Population population4 = new Population(target,mutationRate,maximumPopulation, true);
+        this.population.mergePopulation(population2, population3, population4);
+        System.out.println(this.population.size());
     }
 }
