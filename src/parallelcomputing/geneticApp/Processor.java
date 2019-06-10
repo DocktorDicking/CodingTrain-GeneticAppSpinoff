@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Main geneticApp file. Calls, setUp, draw etc...
  */
-public class SingleProcessor {
+public class Processor {
     private Population population;
     long elapsedTime;
 
@@ -62,15 +62,16 @@ public class SingleProcessor {
 
     /**
      * Simple method to test merging method in population entity.
+     *
      * @param target
      * @param mutationRate
      * @param maximumPopulation
      */
     public void testPopulationMerge(String target, double mutationRate, int maximumPopulation) {
         System.out.println(this.population.size());
-        Population population2 = new Population(target,mutationRate,maximumPopulation, true);
-        Population population3 = new Population(target,mutationRate,maximumPopulation, true);
-        Population population4 = new Population(target,mutationRate,maximumPopulation, true);
+        Population population2 = new Population(target, mutationRate, maximumPopulation, true);
+        Population population3 = new Population(target, mutationRate, maximumPopulation, true);
+        Population population4 = new Population(target, mutationRate, maximumPopulation, true);
         this.population.mergePopulation(population2, population3, population4);
         System.out.println(this.population.size());
     }

@@ -14,7 +14,7 @@ public class Main {
         double mutationRate = 0.01;
         int maxPopulation = 10000;
 
-        SingleProcessor processor = new SingleProcessor();
+        Processor processor = new Processor();
         processor.setUp(target, mutationRate, maxPopulation);
         processor.draw();
     }
