@@ -7,8 +7,9 @@ package geneticTandL;
  * @version: 1.0
  */
 
-import geneticTandL.config.config;
-import geneticTandL.populationRunners.initRunner;
+import geneticTandL.config.Config;
+import geneticTandL.populationRunners.InitRunner;
+import geneticTandL.utils.PopulationUtils;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -22,8 +23,8 @@ public class Processor {
     long elapsedTime;
 
     public void setUp() {
-        for (int i = 0; i < config.maxThreads; i++) {
-            initRunner runnable = new initRunner();
+        for (int i = 0; i < Config.maxThreads; i++) {
+            InitRunner runnable = new InitRunner();
             Thread thread = new Thread(runnable);
             thread.start();
             try {
@@ -32,12 +33,9 @@ public class Processor {
                 e.printStackTrace();
             }
             this.populations.add(runnable.getPopulation());
-            this.population.mergePopulation(populations);
-            this.population.evaluate();
         }
-
-//        this.population = new Population(target, mutationRate, maximumPopulation, true);
-//        this.population.evaluate();
+        this.population.setPopulation(PopulationUtils.mergePopulation(populations));
+        this.population.evaluate();
     }
 
     public void draw() {
@@ -47,7 +45,7 @@ public class Processor {
             //Generate mating pool
             population.naturalSelection();
             //Create next generation
-            population.generate();
+            population.generate(population);
             //Calculate fitness
             population.calcFitness();
 

@@ -1,14 +1,13 @@
 package geneticTandL.populationRunners;
 
 import geneticTandL.Population;
-import geneticTandL.config.config;
 
-public class initRunner implements Runnable{
+public class InitRunner implements Runnable{
     private Population population;
 
+    @Override
     public void run() {
         population = new Population(true);
-        population.evaluate();
     }
 
     public Population getPopulation() {

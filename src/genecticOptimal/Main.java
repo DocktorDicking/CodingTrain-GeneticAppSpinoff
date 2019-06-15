@@ -10,6 +10,9 @@ package genecticOptimal;
  */
 public class Main {
     public static void main(String[] args) {
+        //TODO: Optimal == Running whole process x amount of times. Target will be found x times as fast?
+
+
         String target = "To be or not to be. That is the question.";
         double mutationRate = 0.01;
         int maxPopulation = 10000;
