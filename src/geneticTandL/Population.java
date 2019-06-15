@@ -1,10 +1,9 @@
 package geneticTandL;
 
 import geneticTandL.config.Config;
-import geneticTandL.populationRunners.GenerateRunner;
-import geneticTandL.utils.PopulationUtils;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * @Author: Jim van Wieringen
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  */
 public class Population {
 
-    public ArrayList<DNA> population; //Array to hold the current population
+    private ArrayList<DNA> population; //Array to hold the current population
     private ArrayList<DNA> matingPool; //Array holds best specimen.
     private int generations; //Number of generations.
     private boolean finished; //Did we find the phrase?
@@ -27,25 +26,28 @@ public class Population {
     private double mutationRate;
     private String best;
     private int maximumPopulation;
-    private double perfectScore = 1.0;
+    private double perfectScore = Config.perfectScore;
 
     /**
      * Default population constructor. Population holds an array with DNA entities.
      * Population is used to manage DNA entities.
      *
-     * @param initPopulation Create a populated population (for initialization)
+     * @param target            Target string.
+     * @param mutationRate      Rate of mutation. 0.01 = 1%
+     * @param maximumPopulation The maximum number of DNA entities a population can hold.
+     * @param initPopulation    Create a populated population (for initialization)
      */
-    public Population(boolean initPopulation) {
-        this.target = Config.target;
-        this.mutationRate = Config.mutationRate;
-        this.maximumPopulation = Config.maxPopulation;
+    public Population(String target, double mutationRate, int maximumPopulation, boolean initPopulation) {
+        this.target = target;
+        this.mutationRate = mutationRate;
+        this.maximumPopulation = maximumPopulation;
         this.population = new ArrayList<>();
         this.generations = 0;
         this.best = "";
 
         if (initPopulation) {
-            for (int i = 0; i < this.maximumPopulation; i++) {
-                this.population.add(new DNA(this.target.length()));
+            for (int i = 0; i < maximumPopulation; i++) {
+                population.add(new DNA(this.target.length()));
             }
             this.calcFitness();
         }
@@ -93,24 +95,19 @@ public class Population {
         }
     }
 
-    public void generate(Population population) {
-        //Refill the population with children from the mating pool.
-        ArrayList<Population> populations = splitPopulation(population);
-        ArrayList<Population> newPopulations = new ArrayList<>();
+    public void generate() {
+        Random random = new Random();
 
-        if (populations.size() == Config.maxThreads) {
-            for (int i = 0; i < Config.maxThreads; i++) {
-                GenerateRunner runnable = new GenerateRunner(populations.get(i), matingPool);
-                Thread thread = new Thread(runnable);
-                thread.start();
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                newPopulations.add(runnable.getPopulation());
-            }
-            this.population = PopulationUtils.mergePopulation(newPopulations);
+        //Refill the population with children from the mating pool.
+        for (int i = 0; i < this.population.size(); i++) {
+            int a = random.nextInt(this.matingPool.size());
+            int b = random.nextInt(this.matingPool.size());
+            DNA partnerA = this.matingPool.get(a);
+            DNA partnerB = this.matingPool.get(b);
+            DNA child = partnerA.crossover(partnerB);
+            child.mutate(this.mutationRate);
+            this.population.remove(i);
+            this.population.add(i, child);
         }
         this.generations++;
     }
@@ -154,37 +151,23 @@ public class Population {
         }
     }
 
-
-
     /**
-     * Splits population object into smaller population objects and adds them to an ArrayList.
-     * Before checking it checks if population is dividable by 2. (even)
-     * <p>
-     * Theoretically is the population size always dividable by 2 since the size depends on the CPU cores and CPU
-     * cores normally have a even number of cores.
+     * Returns Populations combined into one population. Method made to merge multiple thread outputs.
+     * Three implementations of mergePopulation. 2, 3, 4.
+     * TODO This is still a concept. Still drawing ideas.
      *
-     * @param population
-     * @return ArrayList
+     * @return
      */
-    public ArrayList<Population> splitPopulation(Population population) {
-        ArrayList<Population> populations = new ArrayList<>();
-        int newArraySize = (population.size() / Config.maxThreads);
-        int pointer = 0;
-        if (population.size() % 2 == 0) {
-            for (int i = 0; i < Config.maxThreads; i++) {
-                if (!(pointer > population.size())) {
-                    Population subPopulation = new Population(false);
-                    for (int j = 0; j < newArraySize; j++) {
-                        subPopulation.population.add(population.getDNA(j + pointer));
-                    }
-                    populations.add(subPopulation);
-                    pointer += newArraySize;
-                } else {
-                    break;
-                }
+    public void mergePopulation(Population a, Population b, Population c) {
+        for (int i = 0; i < maximumPopulation; i++) {
+            this.population.add(a.getDNA(i));
+            if (b != null) {
+                this.population.add(b.getDNA(i));
+            }
+            if (c != null) {
+                this.population.add(c.getDNA(i));
             }
         }
-        return populations;
     }
 
     public String getBest() {
@@ -200,7 +183,7 @@ public class Population {
     }
 
     public int getMaximumPopulation() {
-        return this.maximumPopulation;
+        return maximumPopulation;
     }
 
     public double getMutationRate() {
@@ -211,20 +194,9 @@ public class Population {
         return this.population.get(index);
     }
 
-    public void setPopulation(ArrayList<DNA> population) {
-        this.population = population;
-    }
-
     //METHODS USED FOR TESTING
     public int size() {
         return this.population.size();
     }
 
-    public void remove(int i) {
-        this.population.remove(i);
-    }
-
-    public void add(int i, DNA child) {
-        this.population.add(i, child);
-    }
 }

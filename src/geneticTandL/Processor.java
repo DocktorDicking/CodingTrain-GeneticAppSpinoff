@@ -7,34 +7,18 @@ package geneticTandL;
  * @version: 1.0
  */
 
-import geneticTandL.config.Config;
-import geneticTandL.populationRunners.InitRunner;
-import geneticTandL.utils.PopulationUtils;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Main geneticApp file. Calls, setUp, draw etc...
  */
 public class Processor {
-    private ArrayList<Population> populations = new ArrayList<>();
-    private Population population = new Population(false);
+    private Population population;
     long elapsedTime;
 
-    public void setUp() {
-        for (int i = 0; i < Config.maxThreads; i++) {
-            InitRunner runnable = new InitRunner();
-            Thread thread = new Thread(runnable);
-            thread.start();
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            this.populations.add(runnable.getPopulation());
-        }
-        this.population.setPopulation(PopulationUtils.mergePopulation(populations));
+    public void setUp(String target, double mutationRate, int maximumPopulation) {
+        this.population = new Population(target, mutationRate, maximumPopulation, true);
         this.population.evaluate();
     }
 
@@ -45,7 +29,7 @@ public class Processor {
             //Generate mating pool
             population.naturalSelection();
             //Create next generation
-            population.generate(population);
+            population.generate();
             //Calculate fitness
             population.calcFitness();
 
@@ -74,14 +58,5 @@ public class Processor {
                         "Population limit: " + population.getMaximumPopulation() + "\n" +
                         "Mutation rate: " + (int) population.getMutationRate() + "%";
         System.out.print("\r" + answer + "\n" + stats + "\n\n");
-    }
-
-    //For testing.
-    public ArrayList<Population> getPopulations() {
-        return populations;
-    }
-
-    public Population getPopulation() {
-        return population;
     }
 }
