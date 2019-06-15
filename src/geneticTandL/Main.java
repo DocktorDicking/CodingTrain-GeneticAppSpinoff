@@ -12,8 +12,17 @@ import geneticTandL.config.Config;
  */
 public class Main {
     public static void main(String[] args) {
-        Processor processor = new Processor();
-        processor.setUp(Config.target, Config.mutationRate, Config.maxPopulation);
-        processor.draw();
+
+        for (int i = 0; i < Config.maxThreads; i++) {
+            Thread t = new Thread(() -> {
+                Processor processor = new Processor();
+                processor.setUp(Config.target, Config.mutationRate, Config.maxPopulation);
+                processor.draw();
+            });
+            t.start();
+        }
+
+
+
     }
 }

@@ -6,7 +6,7 @@ package geneticTandL.config;
 public class Config {
     public static String target = "To be or not to be. That is the question.";
     public static double mutationRate = 0.01;
-    public static int maxPopulation = 10000;
+    public static int maxPopulation = 2500;
     public static double perfectScore = 1.0;
     public static int maxThreads = Runtime.getRuntime().availableProcessors();
 }
