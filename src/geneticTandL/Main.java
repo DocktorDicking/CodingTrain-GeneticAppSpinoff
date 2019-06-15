@@ -20,6 +20,8 @@ public class Main {
                 processor.draw();
             });
             t.start();
+            //TODO: Check if a thread have reached target phrase
+            //TODO: Add a combined output of thread stats.
         }
 
 
