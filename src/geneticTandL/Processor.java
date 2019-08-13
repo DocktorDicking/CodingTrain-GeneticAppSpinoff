@@ -73,7 +73,7 @@ public class Processor {
      * @return
      */
     public boolean isFinished () {
-        if (Main.finished) {
+        if (Main.lock.isFinished()) {
 //            this.population
         }
 

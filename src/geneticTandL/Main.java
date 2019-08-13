@@ -3,6 +3,9 @@ package geneticTandL;
 
 import geneticTandL.config.Config;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @Author: Jim van Wieringen
  * @Project Name: geneticApp
@@ -11,7 +14,7 @@ import geneticTandL.config.Config;
  * @version: 1.1
  */
 public class Main {
-    public static boolean finished = false;
+    static finishLock lock = new finishLock();
 
     public static void main(String[] args) {
         for (int i = 0; i < Config.maxThreads; i++) {
@@ -26,5 +29,29 @@ public class Main {
             //TODO: Check if a thread have reached target phrase
             //TODO: Add a combined output of thread stats.
         }
+    }
+}
+
+class finishLock {
+    private boolean finished = false;
+    private final Lock lock = new ReentrantLock();
+
+    public boolean isFinished() {
+        lock.lock();
+        try {
+            return this.finished;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void setFinished(boolean finished) {
+        lock.lock();
+        try {
+            this.finished = finished;
+        } finally {
+            lock.unlock();
+        }
+        this.finished = finished;
     }
 }

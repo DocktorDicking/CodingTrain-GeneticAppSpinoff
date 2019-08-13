@@ -178,11 +178,11 @@ public class Population {
     }
 
     public boolean isFinished() {
-        return Main.finished;
+        return Main.lock.isFinished();
     }
 
     public void setFinished(boolean finished) {
-        Main.finished = finished;
+        Main.lock.setFinished(finished);
     }
 
     public int getMaximumPopulation() {
