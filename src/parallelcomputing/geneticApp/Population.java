@@ -19,7 +19,7 @@ public class Population {
     private ArrayList<DNA> population; //Array to hold the current population
     private ArrayList<DNA> matingPool; //Array holds best specimen.
     private int generations; //Number of generations.
-    private boolean finished; //Did we find the phrase?
+    private boolean finished = false; //Did we find the phrase?
     private String target; //Target String
     private double mutationRate;
     private String best;

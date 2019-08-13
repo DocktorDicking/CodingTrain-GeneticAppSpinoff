@@ -3,7 +3,7 @@ package geneticTandL;
 /**
  * @Author: Jim van Wieringen
  * @Project Name: ParallelComputing
- * @Date: May 21, 2018
+ * @Date: Juli 21, 2019
  * @version: 1.0
  */
 
@@ -58,5 +58,17 @@ public class Processor {
                         "Population limit: " + population.getMaximumPopulation() + "\n" +
                         "Mutation rate: " + (int) population.getMutationRate() + "%";
         System.out.print("\r" + answer + "\n" + stats + "\n\n");
+    }
+
+    /**
+     * Pass for population boolean finished.
+     * @return
+     */
+    public boolean isFinished () {
+        if (Main.finished) {
+//            this.population
+        }
+
+        return population.isFinished();
     }
 }

@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * @Author: Jim van Wieringen
  * @Project Name: geneticApp
- * @Date: May 1, 2019
+ * @Date: Juli 1, 2019
  * @version: 1.0
  */
 

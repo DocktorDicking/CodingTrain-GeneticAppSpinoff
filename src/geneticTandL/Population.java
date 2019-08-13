@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * @Author: Jim van Wieringen
  * @Project Name: ParallelComputing
- * @Date: May 21, 2018
+ * @Date: Juli 21, 2019
  * @version: 1.0
  */
 
@@ -21,7 +21,6 @@ public class Population {
     private ArrayList<DNA> population; //Array to hold the current population
     private ArrayList<DNA> matingPool; //Array holds best specimen.
     private int generations; //Number of generations.
-    private boolean finished; //Did we find the phrase?
     private String target; //Target String
     private double mutationRate;
     private String best;
@@ -147,7 +146,7 @@ public class Population {
 
         this.best = this.population.get(index).printDNA();
         if (record == this.perfectScore) {
-            this.finished = true;
+            this.setFinished(true);
         }
     }
 
@@ -171,15 +170,19 @@ public class Population {
     }
 
     public String getBest() {
-        return best;
+        return this.best;
     }
 
     public int getGenerations() {
-        return generations;
+        return this.generations;
     }
 
     public boolean isFinished() {
-        return finished;
+        return Main.finished;
+    }
+
+    public void setFinished(boolean finished) {
+        Main.finished = finished;
     }
 
     public int getMaximumPopulation() {
