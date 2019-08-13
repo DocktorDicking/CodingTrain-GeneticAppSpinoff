@@ -9,7 +9,7 @@ import java.util.Random;
  * @Author: Jim van Wieringen
  * @Project Name: ParallelComputing
  * @Date: Juli 21, 2019
- * @version: 1.0
+ * @version: 1.1
  */
 
 
@@ -26,6 +26,7 @@ public class Population {
     private String best;
     private int maximumPopulation;
     private double perfectScore = Config.perfectScore;
+    private double record = 0.0;
 
     /**
      * Default population constructor. Population holds an array with DNA entities.
@@ -135,17 +136,16 @@ public class Population {
     }
 
     public void evaluate() {
-        double record = 0.0;
         int index = 0;
         for (int i = 0; i < this.population.size(); i++) {
-            if (this.population.get(i).getFitness() > record) {
+            if (this.population.get(i).getFitness() > this.record) {
                 index = i;
-                record = this.population.get(i).getFitness();
+                this.record = this.population.get(i).getFitness();
             }
         }
 
         this.best = this.population.get(index).printDNA();
-        if (record == this.perfectScore) {
+        if (this.record == this.perfectScore) {
             this.setFinished(true);
         }
     }
@@ -195,6 +195,10 @@ public class Population {
 
     public DNA getDNA(int index) {
         return this.population.get(index);
+    }
+
+    public double getRecord() {
+        return record;
     }
 
     //METHODS USED FOR TESTING

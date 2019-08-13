@@ -8,27 +8,23 @@ import geneticTandL.config.Config;
  * @Project Name: geneticApp
  * @Function: Main
  * @Date: August 15, 2019 2:55:39 PM
- * @version: 1.0
+ * @version: 1.1
  */
 public class Main {
     public static boolean finished = false;
 
     public static void main(String[] args) {
         for (int i = 0; i < Config.maxThreads; i++) {
+            int core = (i + 1);
             Thread t = new Thread(() -> {
                 Processor processor = new Processor();
-                processor.setUp(Config.target, Config.mutationRate, Config.maxPopulation);
+                processor.setUp(Config.target, Config.mutationRate, Config.maxPopulation, core);
                 processor.draw();
             });
             t.start();
 
-
-
             //TODO: Check if a thread have reached target phrase
             //TODO: Add a combined output of thread stats.
         }
-
-
-
     }
 }
