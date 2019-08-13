@@ -1,8 +1,6 @@
 package geneticTandL;
 
-
 import geneticTandL.config.Config;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -25,9 +23,6 @@ public class Main {
                 processor.draw();
             });
             t.start();
-
-            //TODO: Check if a thread have reached target phrase
-            //TODO: Add a combined output of thread stats.
         }
     }
 }
