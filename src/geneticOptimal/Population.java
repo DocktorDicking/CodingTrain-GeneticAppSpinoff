@@ -150,25 +150,6 @@ public class Population {
         }
     }
 
-    /**
-     * Returns Populations combined into one population. Method made to merge multiple thread outputs.
-     * Three implementations of mergePopulation. 2, 3, 4.
-     * TODO This is still a concept. Still drawing ideas.
-     *
-     * @return
-     */
-    public void mergePopulation(Population a, Population b, Population c) {
-        for (int i = 0; i < maximumPopulation; i++) {
-            this.population.add(a.getDNA(i));
-            if (b != null) {
-                this.population.add(b.getDNA(i));
-            }
-            if (c != null) {
-                this.population.add(c.getDNA(i));
-            }
-        }
-    }
-
     public String getBest() {
         return this.best;
     }
@@ -178,11 +159,11 @@ public class Population {
     }
 
     public boolean isFinished() {
-        return Main.lock.isFinished();
+        return Main.abool.get();
     }
 
     public void setFinished(boolean finished) {
-        Main.lock.setFinished(finished);
+        Main.abool.set(finished);
     }
 
     public int getMaximumPopulation() {

@@ -16,13 +16,13 @@ import java.util.concurrent.TimeUnit;
  * Main geneticApp file. Calls, setUp, draw etc...
  */
 public class Processor {
-    private int core = 0;
+    private String name = "";
     private Population population;
     long elapsedTime;
 
-    public void setUp(String target, double mutationRate, int maximumPopulation, int core) {
+    public void setUp(String target, double mutationRate, int maximumPopulation, String name) {
         this.population = new Population(target, mutationRate, maximumPopulation, true);
-        this.core = core;
+        this.name = name;
         this.population.evaluate();
     }
 
@@ -48,17 +48,18 @@ public class Processor {
         if (population.getRecord() == Config.perfectScore) {
             long endTime = System.nanoTime();
             elapsedTime = endTime - startTime;
-            System.out.println("Core: " + this.core + " finished!");
+            System.out.println(this.name + " finished!");
             System.out.println("Generated: " + population.getGenerations() + " Generations");
             System.out.println("Generated: " + population.getGenerations() * population.getMaximumPopulation() + " Phrases");
             System.out.println("Best phrase: " + population.getBest());
             System.out.println("Elapsed time in milliseconds: " + TimeUnit.NANOSECONDS.toMillis(elapsedTime));
             System.out.println("Elapsed time in seconds: " + TimeUnit.NANOSECONDS.toSeconds(elapsedTime));
+            Main.executor.shutdownNow();
         }
     }
 
     public void displayInfo() {
-        String core = "Core: " + this.core + " status:";
+        String core = this.name + " status:";
         String answer = "Best phrase: " + population.getBest();
         String stats =
                 "Total generations: " + population.getGenerations() + "\n" +
@@ -66,17 +67,5 @@ public class Processor {
                         "Population limit: " + population.getMaximumPopulation() + "\n" +
                         "Mutation rate: " + (int) population.getMutationRate() + "%";
         System.out.print("\r" + core + "\n" + answer + "\n" + stats + "\n\n");
-    }
-
-    /**
-     * Pass for population boolean finished.
-     * @return
-     */
-    public boolean isFinished () {
-        if (Main.lock.isFinished()) {
-//            this.population
-        }
-
-        return population.isFinished();
     }
 }

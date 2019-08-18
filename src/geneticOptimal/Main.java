@@ -2,52 +2,48 @@ package geneticOptimal;
 
 import geneticOptimal.config.Config;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @Author: Jim van Wieringen
  * @Project Name: geneticApp
  * @Function: Main
- * @Date: August 15, 2019 2:55:39 PM
+ * @Date: August 16, 2019 2:55:39 PM
  * @version: 1.1
  */
 public class Main {
-    static finishLock lock = new finishLock();
+    static AtomicBoolean abool = new AtomicBoolean(false);
+    static ThreadPoolExecutor executor;
 
     public static void main(String[] args) {
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Config.maxThreads);
         for (int i = 0; i < Config.maxThreads; i++) {
-            int core = (i + 1);
-            Thread t = new Thread(() -> {
-                Processor processor = new Processor();
-                processor.setUp(Config.target, Config.mutationRate, Config.maxPopulation, core);
-                processor.draw();
-            });
-            t.start();
+            int coreNum = i + 1;
+            Task task = new Task("Task " + coreNum);
+            System.out.println("New task added to executor: " + task.getName());
+            executor.execute(task);
         }
     }
 }
 
-class finishLock {
-    private boolean finished = false;
-    private final Lock lock = new ReentrantLock();
+class Task implements Runnable {
 
-    public boolean isFinished() {
-        lock.lock();
-        try {
-            return this.finished;
-        } finally {
-            lock.unlock();
-        }
+    private String name;
+
+    public Task(String name) {
+        this.name = name;
     }
 
-    public void setFinished(boolean finished) {
-        lock.lock();
-        try {
-            this.finished = finished;
-        } finally {
-            lock.unlock();
-        }
-        this.finished = finished;
+    @Override
+    public void run() {
+        Processor processor = new Processor();
+        processor.setUp(Config.target, Config.mutationRate, Config.maxPopulation, this.name);
+        processor.draw();
+    }
+
+    public String getName() {
+        return this.name;
     }
 }
