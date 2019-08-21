@@ -17,6 +17,9 @@ public class Main {
     static AtomicBoolean abool = new AtomicBoolean(false);
     static ThreadPoolExecutor executor;
 
+    //TODO: Run stuff core x 2.
+    //TODO: RMI (Remote Method Infocation) RMI cleint maken en process uitvoeren. Resultaten terug sturen.
+    //Best case RMI situatie is on the fly VPS aanmaken. VPS aanmaken, proces uitvoeren, resultaat binnen hengelen en VPS sluiten.
     public static void main(String[] args) {
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Config.maxThreads);
         for (int i = 0; i < Config.maxThreads; i++) {
