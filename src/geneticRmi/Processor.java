@@ -9,6 +9,7 @@ package geneticRmi;
 
 
 import geneticRmi.config.Config;
+import geneticRmi.rmi.GappRmiClass;
 
 import java.util.concurrent.TimeUnit;
 
@@ -54,7 +55,6 @@ public class Processor {
             System.out.println("Best phrase: " + population.getBest());
             System.out.println("Elapsed time in milliseconds: " + TimeUnit.NANOSECONDS.toMillis(elapsedTime));
             System.out.println("Elapsed time in seconds: " + TimeUnit.NANOSECONDS.toSeconds(elapsedTime));
-            Main.executor.shutdownNow();
         }
     }
 

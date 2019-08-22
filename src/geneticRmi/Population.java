@@ -1,6 +1,7 @@
 package geneticRmi;
 
 import geneticRmi.config.Config;
+import geneticRmi.rmi.GappRmiClass;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -159,11 +160,11 @@ public class Population {
     }
 
     public boolean isFinished() {
-        return Main.abool.get();
+        return GappRmiClass.abool.get();
     }
 
     public void setFinished(boolean finished) {
-        Main.abool.set(finished);
+        GappRmiClass.abool.set(finished);
     }
 
     public int getMaximumPopulation() {
