@@ -5,4 +5,5 @@ import java.rmi.RemoteException;
 
 public interface GappRmi extends Remote {
     void runGapp() throws RemoteException;
+    String getFinalOutput() throws RemoteException;
 }

@@ -9,6 +9,7 @@ package geneticRmi;
 
 
 import geneticRmi.config.Config;
+import geneticRmi.rmi.GappRmi;
 import geneticRmi.rmi.GappRmiClass;
 
 import java.util.concurrent.TimeUnit;
@@ -49,12 +50,14 @@ public class Processor {
         if (population.getRecord() == Config.perfectScore) {
             long endTime = System.nanoTime();
             elapsedTime = endTime - startTime;
-            System.out.println(this.name + " finished!");
-            System.out.println("Generated: " + population.getGenerations() + " Generations");
-            System.out.println("Generated: " + population.getGenerations() * population.getMaximumPopulation() + " Phrases");
-            System.out.println("Best phrase: " + population.getBest());
-            System.out.println("Elapsed time in milliseconds: " + TimeUnit.NANOSECONDS.toMillis(elapsedTime));
-            System.out.println("Elapsed time in seconds: " + TimeUnit.NANOSECONDS.toSeconds(elapsedTime));
+            String finalOutput = this.name + " finished!\n"
+                    + "Generated: " + population.getGenerations() + " Generations\n"
+                    + "Generated: " + population.getGenerations() * population.getMaximumPopulation() + " Phrases\n"
+                    + "Best phrase: " + population.getBest() + "\n"
+                    + "Elapsed time in milliseconds: " + TimeUnit.NANOSECONDS.toMillis(elapsedTime) + "\n"
+                    + "Elapsed time in seconds: " + TimeUnit.NANOSECONDS.toSeconds(elapsedTime);
+            GappRmiClass.finalOutput = finalOutput;
+            System.out.println(finalOutput);
         }
     }
 

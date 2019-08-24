@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GappRmiClass implements GappRmi {
     public static AtomicBoolean abool = new AtomicBoolean(false);
-    private static ThreadPoolExecutor executor;
+    public static String finalOutput = "";
 
     @Override
     public void runGapp() {
@@ -20,7 +20,7 @@ public class GappRmiClass implements GappRmi {
             e.printStackTrace();
         }
 
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Config.maxThreads);
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(Config.maxThreads);
         for (int i = 0; i < Config.maxThreads; i++) {
             int coreNum = i + 1;
             Task task = new Task("Task " + coreNum);
@@ -46,6 +46,11 @@ public class GappRmiClass implements GappRmi {
                 break;
             }
         }
+    }
+
+    @Override
+    public String getFinalOutput() {
+        return finalOutput;
     }
 }
 
